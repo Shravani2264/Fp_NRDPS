@@ -19,9 +19,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-[#03121c] min-h-screen flex flex-col`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.className} bg-[#03121c] min-h-screen flex flex-col`} suppressHydrationWarning>
+        <ThemeProvider 
+          attribute="class" 
+          defaultTheme="dark" 
+          enableSystem={false}
+          disableTransitionOnChange
+        >
           <MainNav />
           <main className="flex-1">{children}</main>
           <Footer />
@@ -33,4 +38,3 @@ export default function RootLayout({
 
 
 
-import './globals.css'
