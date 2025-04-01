@@ -38,7 +38,7 @@ export default function Home() {
           </div>
           <div className="relative">
             <div className="grid grid-cols-2 gap-4 rotate-3">
-              <div className="bg-white p-2 shadow-lg rotate-[-5deg]">
+              <div className="bg-black p-2 shadow-lg rotate-[-5deg]">
                 <Image
                   src="/placeholder.svg?height=300&width=200"
                   alt="Portrait photo"
@@ -73,12 +73,12 @@ export default function Home() {
             <span className="text-[#ff6c4b] mr-2">•</span> Who We Are ?
           </h2>
           <div className="grid md:grid-cols-2 gap-8 mt-8">
-            <div className="flex gap-4">
+            {/* <div className="flex gap-4">
               <Image
-                src="/placeholder.svg?height=300&width=200"
+                src="/ab.jpg?height=500&width=500"
                 alt="Studio photo"
-                width={200}
-                height={300}
+                width={500}
+                height={500}
                 className="object-cover rounded-md"
               />
               <Image
@@ -88,7 +88,7 @@ export default function Home() {
                 height={300}
                 className="object-cover rounded-md mt-8"
               />
-            </div>
+            </div> */}
             <div className="bg-[#9dbaa0]/20 p-6 rounded-md">
               <p className="text-gray-300 leading-relaxed">
                 Founded in 2005, Raja Photo Studio has been capturing life's most precious moments for over 15 years.

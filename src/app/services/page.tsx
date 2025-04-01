@@ -15,7 +15,7 @@ export default function ServicesPage() {
         "Online gallery",
         "Custom wedding album",
       ],
-      image: "/placeholder.svg?height=400&width=600",
+      image: "/service2.jpeg?height=400&width=600",
     },
     {
       title: "Portrait Sessions",
@@ -28,7 +28,7 @@ export default function ServicesPage() {
         "Retouched digital images",
         "Print packages available",
       ],
-      image: "/placeholder.svg?height=400&width=600",
+      image: "/service3.jpeg?height=500&width=500",
     },
     {
       title: "Event Coverage",
@@ -41,7 +41,7 @@ export default function ServicesPage() {
         "Event highlight slideshow",
         "Corporate branding options",
       ],
-      image: "/placeholder.svg?height=400&width=600",
+      image: "/service4.jpg?height=400&width=600",
     },
     {
       title: "Commercial Shoots",
@@ -54,47 +54,9 @@ export default function ServicesPage() {
         "Corporate portraits",
         "Social media content packages",
       ],
-      image: "/placeholder.svg?height=400&width=600",
+      image: "/service1.jpeg?height=400&width=600",
     },
-    {
-      title: "Fashion Photography",
-      description:
-        "Our fashion photography service highlights clothing, accessories, and style with creative flair. We work with models, designers, and brands to create compelling images for portfolios, lookbooks,  We work with models, designers, and brands to create compelling images for portfolios, lookbooks, and marketing campaigns.",
-      features: [
-        "Studio and location shoots",
-        "Professional styling options",
-        "Model direction",
-        "High-end retouching",
-        "Editorial and commercial styles",
-      ],
-      image: "/placeholder.svg?height=400&width=600",
-    },
-    {
-      title: "Real Estate",
-      description:
-        "Our real estate photography showcases properties in their best light, helping agents and owners market effectively. We use techniques that highlight space, features, and ambiance to attract potential buyers.",
-      features: [
-        "Interior and exterior shots",
-        "Aerial photography",
-        "Virtual tours",
-        "Twilight shoots",
-        "HDR imaging",
-      ],
-      image: "/placeholder.svg?height=400&width=600",
-    },
-    {
-      title: "Photo Restoration",
-      description:
-        "Our photo restoration service brings new life to old, damaged, or faded photographs. We carefully repair tears, scratches, stains, and color issues while preserving the original character of your precious memories.",
-      features: [
-        "Digital restoration",
-        "Color correction",
-        "Damage repair",
-        "Enlargement options",
-        "Archival printing",
-      ],
-      image: "/placeholder.svg?height=400&width=600",
-    },
+    
     {
       title: "Video Production",
       description:
@@ -106,7 +68,7 @@ export default function ServicesPage() {
         "Custom music options",
         "Short and long format options",
       ],
-      image: "/placeholder.svg?height=400&width=600",
+      image: "/service5.jpg?height=400&width=600",
     },
   ]
 
