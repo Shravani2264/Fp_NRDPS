@@ -29,19 +29,13 @@ export default function AboutPage() {
           </div>
           <div className="flex gap-4">
             <Image
-              src="/placeholder.svg?height=300&width=200"
+              src="/aboutus.jpg?height=500&width=500"
               alt="Studio photo"
-              width={200}
-              height={300}
+              width={500}
+              height={500}
               className="object-cover rounded-md"
             />
-            <Image
-              src="/placeholder.svg?height=300&width=200"
-              alt="Photographer"
-              width={200}
-              height={300}
-              className="object-cover rounded-md mt-8"
-            />
+            
           </div>
         </div>
 
