@@ -16,5 +16,5 @@ console.log("Firebase API Key:", process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
 const auth = getAuth(app)
-const database = getDatabase(app);
+const database = getDatabase(app, "https://nrdps-8f5d0-default-rtdb.asia-southeast1.firebasedatabase.app");
 export {app, auth, database}

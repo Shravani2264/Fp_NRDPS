@@ -12,11 +12,12 @@ import { onAuthStateChanged } from "firebase/auth";
 
 interface Testimonial {
   id: string;
-  name: string;
+  username: string;
   service: string;
-  quote: string;
-  image: string;
+  review: string;
+  userPhoto: string;
   rating: number;
+  timestamp: number;
 }
 
 export default function TestimonialsPage() {
@@ -27,16 +28,28 @@ export default function TestimonialsPage() {
   // Fetch testimonials from Firebase Realtime Database
   useEffect(() => {
     const testimonialsRef = ref(database, "testimonials");
-    onValue(testimonialsRef, (snapshot) => {
+    const unsubscribe = onValue(testimonialsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        const testimonialList = Object.keys(data).map((key) => ({
-          id: key,
-          ...data[key],
+        const testimonialList = Object.entries(data).map(([id, value]: [string, any]) => ({
+          id,
+          username: value.username || "Anonymous",
+          service: value.service || "Service Not Specified",
+          review: value.review || "No review provided.",
+          userPhoto: value.userPhoto || "/placeholder.svg",
+          rating: value.rating || 5, // Default rating 5 if missing
+          timestamp: value.timestamp || 0,
         }));
+
+        // Sort testimonials by timestamp (most recent first)
+        testimonialList.sort((a, b) => b.timestamp - a.timestamp);
         setTestimonials(testimonialList);
+      } else {
+        setTestimonials([]);
       }
     });
+
+    return () => unsubscribe();
   }, []);
 
   // Listen for authentication state changes
@@ -48,27 +61,29 @@ export default function TestimonialsPage() {
   }, []);
 
   return (
-    <div className="min-h-screen py-16 px-4 md:px-6">
+    <div className="min-h-screen py-16 px-4 md:px-6 bg-[#0b3c5a]">
       <div className="container mx-auto">
-        <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">Client Testimonials</h1>
-        <p className="text-gray-300 max-w-3xl mb-12">
-          Don't just take our word for it. Here's what our clients have to say about their experience working with Raja
-          Photo Studio.
+        <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 text-center">
+          Client Testimonials
+        </h1>
+        <p className="text-gray-300 max-w-3xl mx-auto text-center mb-12">
+          Don't just take our word for it. Here's what our clients have to say about their experience working with
+          Raja Photo Studio.
         </p>
 
         {/* Display testimonials dynamically */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
-          {testimonials.map((testimonial) => (
-            <Card key={testimonial.id} className="bg-[#0b3c5a] border-none overflow-hidden">
-              <CardContent className="p-6">
-                <div className="flex gap-4">
+          {testimonials.length > 0 ? (
+            testimonials.map((testimonial) => (
+              <Card key={testimonial.id} className="bg-[#102330] border-none overflow-hidden shadow-lg">
+                <CardContent className="p-6 flex gap-4">
                   <div className="w-1/3">
                     <Image
-                      src={testimonial.image || "/placeholder.svg"}
-                      alt={testimonial.name}
-                      width={200}
-                      height={300}
-                      className="w-full h-full object-cover rounded-md"
+                      src={testimonial.userPhoto}
+                      alt={testimonial.username}
+                      width={100}
+                      height={100}
+                      className="w-20 h-20 rounded-full object-cover border-2 border-[#ff6c4b]"
                     />
                   </div>
                   <div className="w-2/3">
@@ -76,20 +91,24 @@ export default function TestimonialsPage() {
                       {Array.from({ length: 5 }).map((_, i) => (
                         <Star
                           key={i}
-                          className={`h-4 w-4 ${i < testimonial.rating ? "fill-[#ff6c4b] text-[#ff6c4b]" : "text-gray-400"}`}
+                          className={`h-4 w-4 ${
+                            i < testimonial.rating ? "fill-[#ff6c4b] text-[#ff6c4b]" : "text-gray-400"
+                          }`}
                         />
                       ))}
                     </div>
-                    <p className="text-gray-300 italic mb-4">"{testimonial.quote}"</p>
+                    <p className="text-gray-300 italic mb-4">"{testimonial.review}"</p>
                     <div>
-                      <p className="text-white font-medium">{testimonial.name}</p>
+                      <p className="text-white font-medium">{testimonial.username}</p>
                       <p className="text-[#ff6c4b] text-sm">{testimonial.service}</p>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            <p className="text-center text-gray-300">No testimonials yet. Be the first to share your experience!</p>
+          )}
         </div>
 
         {/* Submit Testimonial Button (Only if Logged In) */}
