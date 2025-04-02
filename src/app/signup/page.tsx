@@ -1,6 +1,5 @@
 "use client"
 
-import type React from "react"
 import { useState } from "react"
 import { useRouter } from "next/navigation";
 import Link from "next/link"
@@ -8,19 +7,60 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Camera } from "lucide-react"
+import { auth, database } from "@/utils/firebaseConfig"
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth"
+import { ref, set } from "firebase/database"
 
 export default function SignupPage() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const router = useRouter();
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle signup logic here
-    console.log("Signup attempt with:", { name, email, password })
-    router.push("/login");
 
-  }
+  // Function to handle Email/Password Signup
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Store user details in Firebase Realtime Database
+      await set(ref(database, "users/" + user.uid), {
+        uid: user.uid,
+        name,
+        email,
+        createdAt: new Date().toISOString()
+      });
+
+      console.log("User signed up:", user);
+      router.push("/home_after_login");
+    } catch (error) {
+      console.error("Signup error:", error);
+    }
+  };
+
+  // Function to handle Google Signup
+  const handleGoogleSignup = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+
+      // Store Google user in Firebase Realtime Database if new
+      await set(ref(database, "users/" + user.uid), {
+        uid: user.uid,
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        createdAt: new Date().toISOString()
+      });
+
+      console.log("Google signup successful:", user);
+      router.push("/home_after_login");
+    } catch (error) {
+      console.error("Google signup error:", error);
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-200px)] px-4">
@@ -33,7 +73,7 @@ export default function SignupPage() {
         </div>
         <div className="bg-[#0b3c5a] p-8 rounded-b-md">
           <h2 className="text-2xl font-bold text-white mb-6 text-center">Sign Up</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSignup} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Name</Label>
               <Input
@@ -74,6 +114,12 @@ export default function SignupPage() {
               Sign Up
             </Button>
           </form>
+          <Button
+            onClick={handleGoogleSignup}
+            className="w-full mt-4 bg-[#4285F4] hover:bg-[#357ae8] text-white"
+          >
+            Sign Up with Google
+          </Button>
           <div className="mt-4 text-center">
             <p className="text-gray-300 text-sm">
               Already have an account?{" "}
@@ -85,6 +131,5 @@ export default function SignupPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-
