@@ -10,7 +10,7 @@ export default function VideosPage() {
       title: "Sarah & John's Wedding Highlights",
       description: "A beautiful summer wedding at Lakeside Gardens",
       duration: "3:45",
-      thumbnail: "/placeholder.svg?height=400&width=600",
+      thumbnail: "/video1.jpg?height=400&width=600",
       category: "Wedding",
     },
     {
@@ -18,7 +18,7 @@ export default function VideosPage() {
       title: "Corporate Brand Film - Acme Inc.",
       description: "Showcasing company culture and values",
       duration: "2:30",
-      thumbnail: "/placeholder.svg?height=400&width=600",
+      thumbnail: "/video2.jpg?height=400&width=600",
       category: "Commercial",
     },
     {
@@ -26,7 +26,7 @@ export default function VideosPage() {
       title: "Annual Charity Gala",
       description: "Highlights from the fundraising event",
       duration: "4:15",
-      thumbnail: "/placeholder.svg?height=400&width=600",
+      thumbnail: "/video3.jpg?height=400&width=600",
       category: "Event",
     },
     {
@@ -34,7 +34,7 @@ export default function VideosPage() {
       title: "Summer Fashion Collection",
       description: "Promotional video for designer's new line",
       duration: "1:45",
-      thumbnail: "/placeholder.svg?height=400&width=600",
+      thumbnail: "/video4.jpg?height=400&width=600",
       category: "Fashion",
     },
     {
@@ -42,7 +42,7 @@ export default function VideosPage() {
       title: "Luxury Real Estate Tour",
       description: "Virtual walkthrough of beachfront property",
       duration: "5:20",
-      thumbnail: "/placeholder.svg?height=400&width=600",
+      thumbnail: "/video5.jpg?height=400&width=600",
       category: "Real Estate",
     },
     {
@@ -50,7 +50,7 @@ export default function VideosPage() {
       title: "25th Anniversary Celebration",
       description: "Silver jubilee highlights for the Patels",
       duration: "3:10",
-      thumbnail: "/placeholder.svg?height=400&width=600",
+      thumbnail: "/video6.jpg?height=400&width=600",
       category: "Event",
     },
     {
@@ -58,7 +58,7 @@ export default function VideosPage() {
       title: "Product Launch - Tech Innovations",
       description: "New product line announcement",
       duration: "2:50",
-      thumbnail: "/placeholder.svg?height=400&width=600",
+      thumbnail: "/video7.jpg?height=400&width=600",
       category: "Commercial",
     },
     {
@@ -66,7 +66,7 @@ export default function VideosPage() {
       title: "Maya & Raj's Wedding Film",
       description: "Traditional ceremony with modern touches",
       duration: "6:30",
-      thumbnail: "/placeholder.svg?height=400&width=600",
+      thumbnail: "/video8.jpg?height=400&width=600",
       category: "Wedding",
     },
   ]

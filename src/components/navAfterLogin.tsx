@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { Camera } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 export function MainNav() {
   const pathname = usePathname()
@@ -23,9 +24,14 @@ export function MainNav() {
     <header className="container mx-auto py-4 px-4 md:px-6">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <Camera className="h-6 w-6 text-[#ff6c4b]" />
-          <Link href="/" className="text-xl font-bold text-white">
-            Raja Photo Studio
+        <Link href="/" >
+          <Image 
+              src="/logo.png"  // Update with the correct image path
+              alt="Raja Photo Studio Logo"
+              width={150}  // Adjust size as needed
+              height={50} 
+              className="h-auto w-auto" // Ensures proper scaling
+            />
           </Link>
         </div>
         <nav className="hidden md:flex items-center gap-6">
@@ -42,6 +48,9 @@ export function MainNav() {
             </Link>
           ))}
         </nav>
+        <div className="flex gap-2">
+          <p></p>
+        </div>
       </div>
     </header>
   )

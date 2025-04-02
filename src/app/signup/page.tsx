@@ -63,19 +63,18 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-200px)] px-4">
+    <div className="flex justify-center items-center min-h-screen " style={{ backgroundColor: '#03121c' }}>            <img 
+        src="logo.png" 
+        alt="Logo" 
+        className="absolute top-5 left-5 w-43 h-20" 
+     />
       <div className="w-full max-w-md">
-        <div className="bg-[#ff6c4b] h-32 rounded-t-md flex items-center justify-center">
-          <div className="flex flex-col items-center">
-            <Camera className="h-10 w-10 text-white" />
-            <h1 className="text-2xl font-bold text-white mt-2">Raja Photo Studio</h1>
-          </div>
-        </div>
+        
         <div className="bg-[#0b3c5a] p-8 rounded-b-md">
           <h2 className="text-2xl font-bold text-white mb-6 text-center">Sign Up</h2>
           <form onSubmit={handleSignup} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
+              <Label className ="text-white" htmlFor="name">Name</Label>
               <Input
                 id="name"
                 type="text"
@@ -87,7 +86,7 @@ export default function SignupPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label className ="text-white" htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -99,7 +98,7 @@ export default function SignupPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label className ="text-white" htmlFor="password">Password</Label>
               <Input
                 id="password"
                 type="password"
