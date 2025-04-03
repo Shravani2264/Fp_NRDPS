@@ -6,7 +6,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { auth } from "@/utils/firebaseConfig"
+import { auth } from "@/utils/firebaseconfig"
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 
 export default function LoginPage() {
@@ -20,7 +20,7 @@ export default function LoginPage() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("Login successful");
-      router.push("/home_after_login");
+      router.push("/");
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -32,7 +32,7 @@ export default function LoginPage() {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
       console.log("Google login successful");
-      router.push("/home_after_login");
+      router.push("/");
     } catch (error) {
       console.error("Google login error:", error);
     }

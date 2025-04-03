@@ -94,7 +94,7 @@ export default function ServicesPage() {
                     <li key={i}>{feature}</li>
                   ))}
                 </ul>
-                <Button className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white">Book This Service</Button>
+                <Button className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white"><Link href="/contact">Book This Service</Link></Button>
               </div>
               <div className={`${index % 2 === 1 ? "md:order-1" : ""}`}>
                 <Image

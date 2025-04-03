@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import Link from "next/link"
 
 export default function GalleryPage() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
@@ -115,7 +116,7 @@ export default function GalleryPage() {
             We have many more examples of our work that we'd be happy to share based on your specific interests and
             needs.
           </p>
-          <Button className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white">Request Custom Portfolio</Button>
+          <Button className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white"><Link href="/contact">Request Custom Portfolio</Link></Button>
         </div>
       </div>
     </div>

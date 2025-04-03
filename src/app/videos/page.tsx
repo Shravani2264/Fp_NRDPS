@@ -2,6 +2,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Play } from "lucide-react"
+import Link from "next/link"
 
 export default function VideosPage() {
   const videos = [
@@ -138,7 +139,7 @@ export default function VideosPage() {
             </div>
           </div>
           <div className="text-center">
-            <Button className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white">Inquire About Video Services</Button>
+            <Button className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white"><Link href="/contact">Inquire About Video Services</Link></Button>
           </div>
         </div>
       </div>
