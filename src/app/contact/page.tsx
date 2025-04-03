@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { ref, push } from "firebase/database";
-import { database } from "../../utils/firebaseConfig";
+import { database } from "@/utils/firebaseconfig";
 import { sendEmail } from "@/utils/resend";
 
 export default function ContactPage() {

@@ -9,7 +9,7 @@ export function middleware(req: NextRequest) {
 
   // Prevent logged-in users from accessing login/signup pages
   if (isAuthenticated && (urlPath === "/login" || urlPath === "/signup")) {
-    return NextResponse.redirect(new URL("/home_after_login", req.url));
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
   // Prevent unauthenticated users from adding testimonials
@@ -22,5 +22,5 @@ export function middleware(req: NextRequest) {
 
 // Configure middleware to run only on specific routes
 export const config = {
-  matcher: ["/login", "/signup", "/add-testimonial"],
+  matcher: ["/login", "/signup", "/submit-testimonial"],
 };
