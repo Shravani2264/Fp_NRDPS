@@ -67,8 +67,8 @@ export default function AboutPage() {
               name: "Raja Kapoor",
               role: "Founder & Lead Photographer",
               bio: "With over 20 years of experience, Raja specializes in wedding and portrait photography. His unique vision and technical expertise have earned him numerous awards.",
-              image: "/placeholder.svg?height=400&width=300",
-            },
+              image: "/service2.jpeg", // Correct path (remove /public)
+            },            
             {
               name: "Priya Sharma",
               role: "Senior Photographer",

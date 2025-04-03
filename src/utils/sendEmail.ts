@@ -1,48 +1,26 @@
-import { Resend } from 'resend';
+import emailjs from '@emailjs/browser';
 
-const resend = new Resend('re_123456789');
 
-resend.apiKeys.create({ name: 'Production' });
-
-export async function sendEmailNotification(formData: {
-  name: string;
-  email: string;
-  phone: string;
-  service: string;
-  message: string;
-}) {
-  const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
-  if (!adminEmail) {
-    throw new Error("Missing NEXT_PUBLIC_ADMIN_EMAIL in environment variables.");
-  }
-
-  console.log("📩 Preparing to send email...");
-  console.log("🔍 Resend API Key:", process.env.NEXT_PUBLIC_RESEND_API_KEY ? "Loaded" : "Missing");
-  console.log("📨 Sending to:", adminEmail);
-
+export async function sendEmail(formData: { name: string; email: string; phone: string; service: string; message: string }) {
   try {
-    const response = await resend.emails.send({
-      from: "contact@yourdomain.com",
-      to: adminEmail,
-      subject: "New Contact Form Submission",
-      html: `
-        <h1>New Contact Form Submission</h1>
-        <p><strong>Name:</strong> ${formData.name}</p>
-        <p><strong>Email:</strong> ${formData.email}</p>
-        <p><strong>Phone:</strong> ${formData.phone}</p>
-        <p><strong>Service Interested In:</strong> ${formData.service}</p>
-        <p><strong>Message:</strong> ${formData.message}</p>
-      `,
-    });
+    const response = await emailjs.send(
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+      {
+        name: formData.name,
+        email: formData.email, // This is the user's email (for reference)
+        phone: formData.phone,
+        service: formData.service,
+        message: formData.message,
+        admin_email: process.env.NEXT_PUBLIC_ADMIN_EMAIL, // Admin's email from environment variables
+      },
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+    );
 
-    console.log("✅ Email sent successfully!", response);
-  } catch (error: any) {
-    console.error("❌ Error sending email:", error);
-
-    if (error.response) {
-      console.error("📜 Response Data:", error.response.data);
-    }
-
-    throw new Error("Failed to send email. See logs for details.");
+    console.log("Email sent successfully to admin:", response);
+    return { success: true, response };
+  } catch (error) {
+    console.error("Email sending failed:", error);
+    return { success: false, error };
   }
 }

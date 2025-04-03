@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,8 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { ref, push } from "firebase/database";
 import { database } from "../../utils/firebaseConfig";
-import { sendEmailNotification } from "@/utils/sendEmail";
-import Image from "next/image";
+import { sendEmail } from "@/utils/resend";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -41,13 +40,10 @@ export default function ContactPage() {
     try {
       // Save contact message in Firebase Realtime Database
       const contactRef = ref(database, "contacts");
-      await push(contactRef, {
-        ...formData,
-        timestamp: Date.now(),
-      });
+      await push(contactRef, { ...formData, timestamp: Date.now() });
 
-      // Send email notification to admin
-      await sendEmailNotification(formData);
+      // Send email to admin
+      await sendEmail(formData);
 
       alert("Message sent successfully!");
       setFormData({ name: "", email: "", phone: "", service: "", message: "" });
