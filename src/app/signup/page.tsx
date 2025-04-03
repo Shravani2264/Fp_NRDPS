@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Camera } from "lucide-react"
-import { auth, database } from "@/utils/firebaseConfig"
+import { auth, database } from "@/utils/firebaseconfig"
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 import { ref, set } from "firebase/database"
 
@@ -33,7 +33,7 @@ export default function SignupPage() {
       });
 
       console.log("User signed up:", user);
-      router.push("/home_after_login");
+      router.push("/");
     } catch (error) {
       console.error("Signup error:", error);
     }
@@ -56,7 +56,7 @@ export default function SignupPage() {
       });
 
       console.log("Google signup successful:", user);
-      router.push("/home_after_login");
+      router.push("/");
     } catch (error) {
       console.error("Google signup error:", error);
     }
