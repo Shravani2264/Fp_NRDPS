@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
-import { auth, database } from "../../utils/firebaseConfig";
+import { auth, database } from "@/utils/firebaseconfig";
 import { ref, onValue } from "firebase/database";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
@@ -61,7 +61,7 @@ export default function TestimonialsPage() {
   }, []);
 
   return (
-    <div className="min-h-screen py-16 px-4 md:px-6 bg-[#0b3c5a]">
+    <div className="min-h-screen py-16 px-4 md:px-6 bg-[#03121c]">
       <div className="container mx-auto">
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 text-center">
           Client Testimonials

@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default function AboutPage() {
   return (
@@ -105,7 +106,9 @@ export default function AboutPage() {
             Whether you're planning a wedding, need professional portraits, or require commercial photography, we're
             here to bring your vision to life.
           </p>
-          <Button className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white">Contact Us</Button>
+          <Button className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white">
+            <Link href="/contact">Contact Us</Link>
+          </Button>
         </div>
       </div>
     </div>

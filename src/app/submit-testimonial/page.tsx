@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Star } from "lucide-react";
-import { auth, database } from "../../utils/firebaseConfig";
+import { auth, database } from "@/utils/firebaseconfig" 
 import { ref, push } from "firebase/database";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
@@ -103,14 +103,21 @@ export default function SubmitTestimonial() {
             className="bg-[#1c3b5f] text-white"
             required
           />
-          <Input
-            type="text"
-            placeholder="Service Experienced"
+          <select
             value={service}
             onChange={(e) => setService(e.target.value)}
-            className="bg-[#1c3b5f] text-white"
+            className="bg-[#1c3b5f] text-gray-400 text-sm p-2 rounded w-full"
             required
-          />
+          >
+            <option value="" disabled hidden>Select a service</option>
+            <option value="Wedding Photography">Wedding Photography</option>
+            <option value="Portrait Sessions">Portrait Sessions</option>
+            <option value="Event Coverage">Event Coverage</option>
+            <option value="Commercial Shoots">Commercial Shoots</option>
+            <option value="Family Portraits">Family Portraits</option>
+            <option value="Product Photography">Product Photography</option>
+            <option value="Video Production">Video Production</option>
+          </select>
           <Textarea
             placeholder="Write your review..."
             value={review}

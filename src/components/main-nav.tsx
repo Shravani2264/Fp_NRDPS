@@ -5,9 +5,36 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { useEffect, useState } from "react"
+import { onAuthStateChanged, signOut } from "firebase/auth"
+import type { User } from "firebase/auth"
+import { auth } from "@/utils/firebaseconfig" 
+import router from "next/router"
 
 export function MainNav() {
   const pathname = usePathname()
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+      setLoading(false)
+    })
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe()
+  }, [])
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth)
+      // You can add a redirect here if needed
+      window.location.href = "/"
+    } catch (error) {
+      console.error("Error signing out: ", error)
+    }
+  }
 
   const navItems = [
     { href: "/", label: "Home" },
@@ -49,12 +76,33 @@ export function MainNav() {
           ))}
         </nav>
         <div className="flex gap-2">
-          <Button asChild variant="ghost" className="text-white hover:text-[#ff6c4b] hover:bg-transparent">
-            <Link href="/login">Login</Link>
-          </Button>
-          <Button asChild className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white">
-            <Link href="/signup">Sign Up</Link>
-          </Button>
+        {loading ? (
+            // Show a loading state while checking authentication
+            <div className="animate-pulse bg-gray-300 h-9 w-20 rounded"></div>
+          ) : user ? (
+            // User is logged in - show logout button and maybe user info
+            <>
+              <span className="hidden sm:inline-block text-white self-center mr-2">
+                {user.displayName || user.email}
+              </span>
+              <Button 
+                onClick={handleLogout} 
+                className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white"
+              >
+                Logout
+              </Button>
+            </>
+          ) : (
+            // User is not logged in - show login and signup buttons
+            <>
+              <Button asChild variant="ghost" className="text-white hover:text-[#ff6c4b] hover:bg-transparent">
+                <Link href="/login">Login</Link>
+              </Button>
+              <Button asChild className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white">
+                <Link href="/signup">Sign Up</Link>
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </header>

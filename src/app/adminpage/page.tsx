@@ -1,28 +1,33 @@
-"use client";
+"use client"
 
 import Image from "next/image"
 import Link from "next/link"
-import React, { useState } from "react";
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ChevronRight } from "lucide-react"
-import { MainNav } from "@/components/navAfterLogin";
+import { useRouter } from "next/navigation"
 
 export default function Home() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter()
+  const handleLogout = () => {
+    // Perform any logout logic here (e.g., clearing authentication tokens)
+    window.location.href = "/"; // Redirect to the login page after logout
+  };
   return (
-    <div className="min-h-screen">
-      {/* Upload Photos Section (Only for logged-in users) */}
-      {isLoggedIn && (
-        <section className="py-16 px-4 md:px-6">
-          <div className="container mx-auto text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">Upload Your Photos</h2>
-            <input type="file" accept="image/*" className="block mx-auto text-white" />
-            <Button className="mt-4 bg-[#ff6c4b] hover:bg-[#e05a3b] text-white">Upload</Button>
-          </div>
-        </section>
-      )}
+    <div className="min-h-screen" style={{ backgroundColor: '#03121c' }}>
+      <img 
+        src="logo.png" 
+        alt="Logo" 
+        className="absolute top-5 left-5 w-40 h-15" 
+     />
+     <Button onClick={handleLogout}
+        className="absolute top-5 right-5 bg-[#ff6c4b] hover:bg-[#e05a3b] text-white px-4 py-2 rounded-md">
+        Logout
+      </Button>
+      {/* <p>this is admin page</p> */}
       {/* Hero Section */}
+      <br></br>
+      <br></br>
       <section className="relative py-20 px-4 md:px-6 overflow-hidden">
         <div className="container mx-auto grid md:grid-cols-2 gap-8 items-center">
           <div className="space-y-6">
@@ -34,26 +39,17 @@ export default function Home() {
               Capturing your precious moments with creativity and passion. We specialize in weddings, events, portraits,
               and commercial photography.
             </p>
-            <Button className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white">Book Now</Button>
+            <Button className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white"><Link href="/contact">Book Now</Link></Button>
           </div>
           <div className="relative">
             <div className="grid grid-cols-2 gap-4 rotate-3">
-              <div className="bg-black p-2 shadow-lg rotate-[-5deg]">
+              <div className=" p-2 shadow-lg w-[500px] h-[400px] rotate-[-2deg]">
                 <Image
-                  src="/placeholder.svg?height=300&width=200"
+                  src="/ab.jpg?height=500&width=500"
                   alt="Portrait photo"
-                  width={200}
-                  height={300}
-                  className="object-cover"
-                />
-              </div>
-              <div className="bg-white p-2 shadow-lg rotate-[5deg]">
-                <Image
-                  src="/placeholder.svg?height=300&width=200"
-                  alt="Wedding photo"
-                  width={200}
-                  height={300}
-                  className="object-cover"
+                  width={500}
+                  height={500}
+                  className="object-cover w-full h-full"
                 />
               </div>
             </div>
@@ -73,27 +69,21 @@ export default function Home() {
             <span className="text-[#ff6c4b] mr-2">•</span> Who We Are ?
           </h2>
           <div className="grid md:grid-cols-2 gap-8 mt-8">
-            {/* <div className="flex gap-4">
+            <div className="flex gap-4 w-[500px] h-[400px]">
               <Image
-                src="/ab.jpg?height=500&width=500"
+                src="/wwr.jpg?height=500&width=500"
                 alt="Studio photo"
                 width={500}
                 height={500}
                 className="object-cover rounded-md"
               />
-              <Image
-                src="/placeholder.svg?height=300&width=200"
-                alt="Photographer"
-                width={200}
-                height={300}
-                className="object-cover rounded-md mt-8"
-              />
-            </div> */}
-            <div className="bg-[#9dbaa0]/20 p-6 rounded-md">
+            </div>
+            <div className="bg-[9DBAA0] p-6 rounded-md">
               <p className="text-gray-300 leading-relaxed">
-                Founded in 2005, Raja Photo Studio has been capturing life's most precious moments for over 15 years.
-                Our team of professional photographers brings creativity, technical expertise, and a passion for
-                storytelling to every shoot.
+              We,  New Raja Photo Studio, situated at Kalyan,  Maharashtra are a team of renowned photographers and we define creativity & provide premium customer services, without compromising on quality and durability. 
+              <br></br>
+              <br></br>
+              Professionalism, high standard clicks, aesthetic sense and most importantly - flexibility, are our mantras. Our passion and drive in our heart and soul showcase onto everything we deliver. Our experts offer best of services with their exquisite photographing skill set.
               </p>
               <div className="mt-6">
                 <Button asChild variant="outline" className="text-[#ff6c4b] border-[#ff6c4b]">
@@ -111,30 +101,31 @@ export default function Home() {
           <h2 className="text-2xl font-bold text-white mb-8 flex items-center">
             <span className="text-[#ff6c4b] mr-2">•</span> Our Services
           </h2>
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-4 gap-6 ">
             {[
               {
                 title: "Wedding Photography",
                 description: "Capturing your special day with creativity and emotion.",
-                image: "/placeholder.svg?height=200&width=300",
+                image: "/service2.jpeg?height=200&width=300",
               },
               {
                 title: "Portrait Sessions",
                 description: "Professional portraits for individuals and families.",
-                image: "/placeholder.svg?height=200&width=300",
+                image: "/service3.jpeg?height=200&width=300",
               },
               {
                 title: "Event Coverage",
                 description: "Comprehensive coverage for all types of events.",
-                image: "/placeholder.svg?height=200&width=300",
+                image: "/service4.jpg?height=200&width=300",
               },
               {
                 title: "Commercial Shoots",
                 description: "High-quality images for your business and products.",
-                image: "/placeholder.svg?height=200&width=300",
+                image: "/service1.jpeg?height=200&width=300",
               },
             ].map((service, index) => (
               <Card key={index} className="bg-[#0b3c5a] border-none overflow-hidden">
+                <div className="w-full h-40">
                 <Image
                   src={service.image || "/placeholder.svg"}
                   alt={service.title}
@@ -142,6 +133,7 @@ export default function Home() {
                   height={200}
                   className="w-full h-40 object-cover"
                 />
+                </div>
                 <CardContent className="p-4">
                   <h3 className="font-semibold text-white">{service.title}</h3>
                   <p className="text-gray-300 text-sm mt-2">{service.description}</p>
@@ -172,10 +164,10 @@ export default function Home() {
               {[1, 2, 3].map((item) => (
                 <div key={item} className="bg-white p-3 shadow-lg rotate-[-2deg] hover:rotate-0 transition-transform">
                   <Image
-                    src="/placeholder.svg?height=200&width=150"
+                    src="/recent1.jpeg?height=200&width=150"
                     alt={`Gallery image ${item}`}
-                    width={150}
-                    height={200}
+                    width={250}
+                    height={300}
                     className="object-cover"
                   />
                   <p className="text-center text-xs mt-2 text-gray-700">2023</p>

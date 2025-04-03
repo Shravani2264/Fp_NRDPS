@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import Link from "next/link"
 
 export default function GalleryPage() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
@@ -18,18 +19,17 @@ export default function GalleryPage() {
   ]
 
   const galleryImages = [
-    { id: 1, src: "/placeholder.svg?height=400&width=600", category: "wedding", title: "Summer Wedding" },
-    { id: 2, src: "/placeholder.svg?height=400&width=600", category: "wedding", title: "Beach Ceremony" },
-    { id: 3, src: "/placeholder.svg?height=400&width=600", category: "portrait", title: "Family Portrait" },
-    { id: 4, src: "/placeholder.svg?height=400&width=600", category: "portrait", title: "Corporate Headshot" },
-    { id: 5, src: "/placeholder.svg?height=400&width=600", category: "event", title: "Corporate Gala" },
-    { id: 6, src: "/placeholder.svg?height=400&width=600", category: "event", title: "Birthday Celebration" },
-    { id: 7, src: "/placeholder.svg?height=400&width=600", category: "commercial", title: "Product Showcase" },
-    { id: 8, src: "/placeholder.svg?height=400&width=600", category: "commercial", title: "Real Estate" },
-    { id: 9, src: "/placeholder.svg?height=400&width=600", category: "fashion", title: "Summer Collection" },
-    { id: 10, src: "/placeholder.svg?height=400&width=600", category: "fashion", title: "Editorial Shoot" },
-    { id: 11, src: "/placeholder.svg?height=400&width=600", category: "wedding", title: "Traditional Ceremony" },
-    { id: 12, src: "/placeholder.svg?height=400&width=600", category: "portrait", title: "Artistic Portrait" },
+    { id: 1, src: "/summer wedding.jpg?height=400&width=600", category: "wedding", title: "Summer Wedding" },
+    { id: 2, src: "/beach ceremony.jpg?height=400&width=600", category: "wedding", title: "Beach Ceremony" },
+    { id: 3, src: "/Family Portrait.jpg?height=400&width=600", category: "portrait", title: "Family Portrait" },
+    { id: 4, src: "/corporate headshot.jpg?height=400&width=600", category: "portrait", title: "Corporate Headshot" },
+    { id: 5, src: "/corporate Gala.jpg?height=400&width=600", category: "event", title: "Corporate Gala" },
+    { id: 6, src: "/birthday.jpg?height=400&width=600", category: "event", title: "Birthday Celebration" },
+    { id: 7, src: "/product showcase.jpeg?height=400&width=600", category: "commercial", title: "Product Showcase" },
+    { id: 8, src: "/real estate.jpg?height=400&width=600", category: "commercial", title: "Real Estate" },
+    { id: 9, src: "/editoral shoot.jpg?height=400&width=600", category: "fashion", title: "Editorial Shoot" },
+    { id: 10, src: "/traditional shoot.jpg?height=400&width=600", category: "wedding", title: "Traditional Ceremony" },
+    { id: 11, src: "/artistic porti.jpg?height=400&width=600", category: "portrait", title: "Artistic Portrait" },
   ]
 
   return (
@@ -116,7 +116,7 @@ export default function GalleryPage() {
             We have many more examples of our work that we'd be happy to share based on your specific interests and
             needs.
           </p>
-          <Button className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white">Request Custom Portfolio</Button>
+          <Button className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white"><Link href="/contact">Request Custom Portfolio</Link></Button>
         </div>
       </div>
     </div>
