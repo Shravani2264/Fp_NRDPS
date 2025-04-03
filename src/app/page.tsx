@@ -19,7 +19,7 @@ export default function Home() {
               Capturing your precious moments with creativity and passion. We specialize in weddings, events, portraits,
               and commercial photography.
             </p>
-            <Button className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white">Book Now</Button>
+            <Button className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white"><Link href="/contact">Book Now</Link></Button>
           </div>
           <div className="relative">
             <div className="grid grid-cols-2 gap-4 rotate-3">
