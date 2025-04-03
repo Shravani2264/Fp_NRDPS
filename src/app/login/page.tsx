@@ -18,7 +18,15 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      if (user.email === "2023.ishan.jadhav@ves.ac.in") {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
       console.log("Login successful");
       router.push("/");
     } catch (error) {
@@ -30,7 +38,14 @@ export default function LoginPage() {
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user; // Extract user correctly
+
+      if (user.email === "2023.ishan.jadhav@ves.ac.in") {
+          window.location.href = "/adminpage";
+      } else {
+        router.push("/");
+      }
       console.log("Google login successful");
       router.push("/");
     } catch (error) {
