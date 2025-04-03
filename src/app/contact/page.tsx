@@ -1,7 +1,5 @@
 "use client";
 
-// import { useState } from "react";
-// import type React from "react";
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,11 +7,12 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { ref, push } from "firebase/database";
+import { database } from "../../utils/firebaseConfig";
+import { sendEmailNotification } from "@/utils/sendEmail";
 import Image from "next/image";
 
-
 export default function ContactPage() {
-  // ✅ Add state for form data
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,28 +20,43 @@ export default function ContactPage() {
     service: "",
     message: "",
   });
-  const [isClient, setIsClient] = useState(false);
-  
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-  // ✅ Handle input changes
+  const [loading, setLoading] = useState(false);
+
+  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ✅ Handle dropdown (Select) changes
+  // Handle dropdown (Select) changes
   const handleServiceChange = (value: string) => {
     setFormData((prev) => ({ ...prev, service: value }));
   };
 
-  // ✅ Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Reset form or show success message
-    setFormData({ name: "", email: "", phone: "", service: "", message: "" });
+    setLoading(true);
+
+    try {
+      // Save contact message in Firebase Realtime Database
+      const contactRef = ref(database, "contacts");
+      await push(contactRef, {
+        ...formData,
+        timestamp: Date.now(),
+      });
+
+      // Send email notification to admin
+      await sendEmailNotification(formData);
+
+      alert("Message sent successfully!");
+      setFormData({ name: "", email: "", phone: "", service: "", message: "" });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Failed to send message. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -50,11 +64,11 @@ export default function ContactPage() {
       <div className="container mx-auto">
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">Contact Us</h1>
         <p className="text-gray-300 max-w-3xl mb-12">
-          Have a question or ready to book a session? Get in touch with us using the form below or through our contact information.
+          Have a question or ready to book a session? Get in touch with us using the form below.
         </p>
 
         <div className="grid md:grid-cols-2 gap-12">
-          {/* ✅ Contact Information Section */}
+          {/* Contact Information */}
           <div>
             <div className="space-y-8 mb-8">
               {/* Location */}
@@ -85,12 +99,12 @@ export default function ContactPage() {
                   <Mail className="h-6 w-6 text-[#ff6c4b]" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-medium text-white">Email Addresses</h3>
+                  <h3 className="text-lg font-medium text-white">Email</h3>
                   <p className="text-gray-300 mt-1">info@rajaphotostudio.com</p>
                 </div>
               </div>
 
-              {/* ✅ Fixed Business Hours Section */}
+              {/* Business Hours */}
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-full bg-[#0b3c5a] flex items-center justify-center flex-shrink-0">
                   <Clock className="h-6 w-6 text-[#ff6c4b]" />
@@ -103,84 +117,33 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* ✅ Contact Form Section */}
+          {/* Contact Form */}
           <div className="bg-[#0b3c5a] p-8 rounded-md">
             <h2 className="text-2xl font-bold text-white mb-6">Send Us A Message</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Name */}
-              <div className="space-y-2">
-                <Label htmlFor="name">Your Name</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Enter your full name"
-                  className="bg-[#102330] text-white"
-                  required
-                />
-              </div>
+              <Label htmlFor="name">Your Name</Label>
+              <Input id="name" name="name" value={formData.name} onChange={handleChange} required />
 
-              {/* Email */}
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter your email address"
-                  className="bg-[#102330] text-white"
-                  required
-                />
-              </div>
+              <Label htmlFor="email">Email Address</Label>
+              <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} required />
 
-              {/* Phone */}
-              <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number</Label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Enter your phone number"
-                  className="bg-[#102330] text-white"
-                />
-              </div>
+              <Label htmlFor="phone">Phone Number</Label>
+              <Input id="phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} />
 
-              {/* Service Selection */}
-              <div className="space-y-2">
-                <Label htmlFor="service">Service Interested In</Label>
-                <Select value={formData.service} onValueChange={handleServiceChange}>
-                  <SelectTrigger className="bg-[#102330] text-white">
-                    <SelectValue placeholder="Select a service" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="wedding">Wedding Photography</SelectItem>
-                    <SelectItem value="portrait">Portrait Sessions</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              <Label htmlFor="service">Service Interested In</Label>
+              <Select value={formData.service} onValueChange={handleServiceChange}>
+                <SelectTrigger><SelectValue placeholder="Select a service" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="wedding">Wedding Photography</SelectItem>
+                  <SelectItem value="portrait">Portrait Sessions</SelectItem>
+                </SelectContent>
+              </Select>
 
-              {/* Message */}
-              <div className="space-y-2">
-                <Label htmlFor="message">Your Message</Label>
-                <Textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Tell us about your project"
-                  className="bg-[#102330] text-white min-h-[150px]"
-                  required
-                />
-              </div>
+              <Label htmlFor="message">Your Message</Label>
+              <Textarea id="message" name="message" value={formData.message} onChange={handleChange} required />
 
-              {/* Submit Button */}
-              <Button type="submit" className="w-full bg-[#ff6c4b] text-white">
-                Send Message
+              <Button type="submit" className="w-full bg-[#ff6c4b] text-white" disabled={loading}>
+                {loading ? "Sending..." : "Send Message"}
               </Button>
             </form>
           </div>

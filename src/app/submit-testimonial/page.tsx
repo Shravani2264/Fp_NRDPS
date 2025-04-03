@@ -7,7 +7,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Star } from "lucide-react";
 import { auth, database } from "../../utils/firebaseConfig";
 import { ref, push } from "firebase/database";
-import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -21,7 +20,6 @@ export default function SubmitTestimonial() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  // Check if user is logged in
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (!currentUser) {
@@ -32,6 +30,26 @@ export default function SubmitTestimonial() {
     });
     return () => unsubscribe();
   }, [router]);
+
+  const uploadToCloudinary = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "FIeldProject"); // Get from Cloudinary settings
+    formData.append("cloud_name", "ydpg3rszae");
+
+    try {
+      const response = await fetch(`https://api.cloudinary.com/v1_1/dpg3rszae/image/upload`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      return data.secure_url; // Cloudinary returns the image URL
+    } catch (error) {
+      console.error("Error uploading to Cloudinary:", error);
+      return "";
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,10 +63,7 @@ export default function SubmitTestimonial() {
 
     try {
       if (image) {
-        const storage = getStorage();
-        const imageRef = storageRef(storage, `testimonials/${user.uid}-${Date.now()}`);
-        await uploadBytes(imageRef, image);
-        imageUrl = await getDownloadURL(imageRef);
+        imageUrl = await uploadToCloudinary(image);
       }
 
       const testimonialRef = ref(database, "testimonials");
@@ -104,31 +119,23 @@ export default function SubmitTestimonial() {
             required
           />
 
-          {/* Star Rating Selection */}
           <div className="flex items-center gap-2">
             <p className="text-white">Rating:</p>
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
                 key={i}
-                className={`h-5 w-5 cursor-pointer ${
-                  i < rating ? "fill-[#ff6c4b] text-[#ff6c4b]" : "text-gray-400"
-                }`}
+                className={`h-5 w-5 cursor-pointer ${i < rating ? "fill-[#ff6c4b] text-[#ff6c4b]" : "text-gray-400"}`}
                 onClick={() => setRating(i + 1)}
               />
             ))}
           </div>
 
-          {/* File Upload for Profile Picture */}
           <div className="flex flex-col">
             <label className="text-white">Upload Your Photo (Optional):</label>
             <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files?.[0] || null)} />
           </div>
 
-          <Button
-            type="submit"
-            className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white w-full"
-            disabled={loading}
-          >
+          <Button type="submit" className="bg-[#ff6c4b] hover:bg-[#e05a3b] text-white w-full" disabled={loading}>
             {loading ? "Submitting..." : "Submit Testimonial"}
           </Button>
         </form>
