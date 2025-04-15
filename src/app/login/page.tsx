@@ -6,7 +6,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { auth } from "@/utils/firebaseconfig"
+import { auth } from "@/utils/firebaseConfig"
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 
 export default function LoginPage() {
@@ -42,7 +42,7 @@ export default function LoginPage() {
       const user = result.user; // Extract user correctly
 
       if (user.email === "2023.ishan.jadhav@ves.ac.in") {
-          window.location.href = "/adminpage";
+        window.location.href = "/adminpage";
       } else {
         router.push("/");
       }
@@ -54,7 +54,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen " style={{ backgroundColor: '#03121c' }}>            <img 
+    <div className="flex justify-center items-center min-h-screen " style={{ backgroundColor: '#03121c' }}>            
+    <img 
         src="logo.png" 
         alt="Logo" 
         className="absolute top-5 left-5 w-43 h-20" 
