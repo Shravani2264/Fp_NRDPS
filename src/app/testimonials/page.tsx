@@ -91,9 +91,8 @@ export default function TestimonialsPage() {
                       {Array.from({ length: 5 }).map((_, i) => (
                         <Star
                           key={i}
-                          className={`h-4 w-4 ${
-                            i < testimonial.rating ? "fill-[#ff6c4b] text-[#ff6c4b]" : "text-gray-400"
-                          }`}
+                          className={`h-4 w-4 ${i < testimonial.rating ? "fill-[#ff6c4b] text-[#ff6c4b]" : "text-gray-400"
+                            }`}
                         />
                       ))}
                     </div>
@@ -133,3 +132,4 @@ export default function TestimonialsPage() {
     </div>
   );
 }
+

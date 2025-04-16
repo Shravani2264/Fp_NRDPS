@@ -23,6 +23,7 @@ export default function AdminPage() {
     review: string;
     service: string;
     rating: number;
+    userPhoto: string;
     timestamp: number;
   }
 
@@ -44,16 +45,20 @@ export default function AdminPage() {
 
     // Fetch Testimonials
     const unsubscribeTestimonials = onValue(testimonialsRef, (snapshot) => {
+
       const data = snapshot.val();
       if (data) {
         const parsed = Object.entries(data).map(([id, value]: [string, any]) => ({
           id,
-          username: value.username,
-          review: value.review,
-          service: value.service,
-          rating: value.rating,
-          timestamp: value.timestamp,
+          username: value.username || "Anonymous",
+          service: value.service || "Service Not Specified",
+          review: value.review || "No review provided.",
+          userPhoto: value.userPhoto || "/placeholder.svg",
+          rating: value.rating || 5, // Default rating 5 if missing
+          timestamp: value.timestamp || 0,
         }));
+
+        // Sort testimonials by timestamp (most recent first)
         parsed.sort((a, b) => b.timestamp - a.timestamp);
         setTestimonials(parsed);
       } else {
@@ -83,7 +88,7 @@ export default function AdminPage() {
       unsubscribeContacts();
     };
   }, []);
-  
+
   const handleDeleteTestimonial = async (id: string) => {
     try {
       await remove(ref(database, `testimonials/${id}`));
@@ -93,7 +98,7 @@ export default function AdminPage() {
       alert("Failed to delete testimonial.");
     }
   };
-  
+
   const handleDeleteContact = async (id: string) => {
     try {
       await remove(ref(database, `contacts/${id}`));
@@ -103,7 +108,7 @@ export default function AdminPage() {
       alert("Failed to delete contact submission.");
     }
   };
-  
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
@@ -206,38 +211,51 @@ export default function AdminPage() {
               Latest Testimonials
             </h2>
             <div className="space-y-4">
-            {testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="bg-slate-700 rounded-lg p-4 relative">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-medium text-white">{testimonial.username}</h3>
-                    <p className="text-slate-300 mt-1">"{testimonial.review}"</p>
-                    <p className="text-slate-400 text-sm mt-1 italic">{testimonial.service}</p>
+              {testimonials.map((testimonial) => (
+
+                <div key={testimonial.id} className="bg-slate-700 rounded-lg p-4 relative">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4"> {/* Added space-x-4 for spacing */}
+                      {/* User Profile Image */}
+                      <img
+                        src={testimonial.userPhoto || "/default-pfp.png"}
+                        alt={testimonial.username}
+                        className="w-16 h-16 rounded-full object-cover border-2 border-[#ff6c4b]"
+                      />
+                      {/* Username and Review */}
+                      <div>
+                        <h3 className="font-medium text-white">{testimonial.username}</h3>
+                        <p className="text-slate-300 mt-1">"{testimonial.review}"</p>
+                        <p className="text-slate-400 text-sm mt-1 italic">{testimonial.service}</p>
+                      </div>
+                    </div>
+                    {/* Rating */}
+                    <div className="flex space-x-1 mt-8">
+                      {[...Array(5)].map((_, i) => (
+                        <span
+                          key={i}
+                          className={`text-lg ${i < testimonial.rating ? "text-yellow-400" : "text-slate-600"}`}
+                        >
+                          ★
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <span
-                        key={i}
-                        className={`text-lg ${
-                          i < testimonial.rating ? "text-yellow-400" : "text-slate-600"
-                        }`}
-                      >
-                        ★
-                      </span>
-                    ))}
-                  </div>
+                  <p className="text-slate-500 text-xs mt-2">
+                    {new Date(testimonial.timestamp).toLocaleString()}
+                  </p>
+                  <button
+                    onClick={() => handleDeleteTestimonial(testimonial.id)}
+                    className="absolute mt-2 top-2 right-4 text-red-500 hover:text-red-700 hover:bg-red-200 text-sm rounded-md px-2 py-1 border-2 border-red-500"
+                  >
+
+                    Delete
+                  </button>
+
                 </div>
-                <p className="text-slate-500 text-xs mt-2">
-                  {new Date(testimonial.timestamp).toLocaleString()}
-                </p>
-                <button
-                  onClick={() => handleDeleteTestimonial(testimonial.id)}
-                  className="absolute top-2 right-2 text-red-500 hover:text-red-700 text-sm"
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
+
+
+              ))}
 
             </div>
             <Button className="mt-4 bg-slate-700 hover:bg-slate-600 text-white">
@@ -255,20 +273,20 @@ export default function AdminPage() {
               Contact Form Submissions
             </h2>
             <div className="space-y-4">
-            {contacts.map((contact) => (
-              <div key={contact.id} className="bg-slate-700 rounded-lg p-4 relative">
-                <h3 className="font-medium text-white">{contact.name}</h3>
-                <p className="text-slate-400 text-sm">{contact.email}</p>
-                <p className="text-slate-300 mt-2">{contact.message}</p>
-                <p className="text-slate-500 text-xs mt-2">{contact.date}</p>
-                <button
-                  onClick={() => handleDeleteContact(contact.id)}
-                  className="absolute top-2 right-2 text-red-500 hover:text-red-700 text-sm"
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
+              {contacts.map((contact) => (
+                <div key={contact.id} className="bg-slate-700 rounded-lg p-4 relative">
+                  <h3 className="font-medium text-white">{contact.name}</h3>
+                  <p className="text-slate-400 text-sm">{contact.email}</p>
+                  <p className="text-slate-300 mt-2">{contact.message}</p>
+                  <p className="text-slate-500 text-xs mt-2">{contact.date}</p>
+                  <button
+                    onClick={() => handleDeleteContact(contact.id)}
+                    className="absolute right-4 top-4 bottom-4 my-auto text-red-500 hover:text-red-700 text-sm"
+                  >
+                    Delete
+                  </button>
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
