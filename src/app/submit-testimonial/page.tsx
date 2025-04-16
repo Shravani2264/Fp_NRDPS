@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Star } from "lucide-react";
-import { auth, database } from "@/utils/firebaseconfig" 
+import { auth, database } from "@/utils/firebaseConfig" 
 import { ref, push } from "firebase/database";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
