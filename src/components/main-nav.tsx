@@ -8,13 +8,13 @@ import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
 import { onAuthStateChanged, signOut } from "firebase/auth"
 import type { User } from "firebase/auth"
-import { auth } from "@/utils/firebaseconfig" 
+import { auth } from "@/utils/firebaseConfig" 
 import router from "next/router"
 
 export function MainNav() {
   const pathname = usePathname()
   const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {

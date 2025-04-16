@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
-import { auth, database } from "@/utils/firebaseconfig";
+import { auth, database } from "@/utils/firebaseConfig";
 import { ref, onValue } from "firebase/database";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
